@@ -1,0 +1,41 @@
+{
+  "manifest_version": 3,
+  "name": "MarkerFinder",
+  "description": "MarkerFinder is a extension which helps you to highlight the text and search that text on google easily it is also give functionality to download all the highlighting text in one click.",
+  "version": "1.0.0",
+  "author": "Preet Shah",
+  "icons": {
+    "128": "./assets/images/highlight-gaf0398eaf_1280.png"
+  },
+  "action": {
+    "default_icon": "./assets/images/highlight-gaf0398eaf_1280.png",
+    "default_popup": "popup.html",
+    "default_title": "MarkerFinder"
+  },
+  "permissions": [
+    "tabs",
+    "storage",
+    "webRequest",
+    "notifications"
+  ],
+  "web_accessible_resources": [{
+    "resources": ["script.js"],
+    "matches": ["<all_urls>"]
+  }],
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "./scripts/page.js"
+      ],
+      "css": [
+        "./assets/css/content.css"
+      ]
+    }
+  ],
+  "background": {
+    "service_worker": "./scripts/background.js"
+  }
+}

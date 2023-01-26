@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: #000;
+    width: 430px;
+    height: max-content;
+}
+
+h1 {
+    letter-spacing: 6px;
+    font-size: 3.5em;
+    width: max-content;
+    margin: 20px auto;
+    padding: 5px 6px;
+    font-family: 'Dancing Script', cursive;
+}
+
+hr {
+    width: 80%;
+    margin: auto auto;
+    height: 2px;
+}
+
+.downloadArea,
+.viewNotes {
+    width: 90%;
+    margin: 5px auto;
+    padding: 5px 6px;
+}
+
+.downloadArea h3 {
+    letter-spacing: 2px;
+    font-size: 1.8em;
+    font-weight: 400;
+    text-align: center;
+}
+
+.downloadArea h3 {
+    font-size: 1em;
+}
+
+.block {
+    display: none;
+}
+
+.downloadArea button,
+.viewNotes button {
+    display: block;
+    width: max-content;
+    padding: 10px 12px;
+    background-color: #fff;
+    color: #000;
+    letter-spacing: 2px;
+    margin: 5px auto;
+    cursor: pointer;
+}
