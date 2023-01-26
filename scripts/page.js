@@ -1,7 +1,5 @@
 let selected = "", obj = false, title = "", tabUrl = "", note = [], result = [], high = [], color = "green";
 
-const closeBtn = document.getElementById("closeMarker")
-
 //when ever page is reload then we have message from backgroud for updating also message from popup for notes display
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.from === "popup") {
@@ -35,7 +33,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 //displaying the notes on page
 const view = (title) => {
     let css = false
-    console.log(title)
     if (document.getElementById("markerFinder")) {
         document.body.removeChild(document.getElementById("markerFinder"))
         css = true
@@ -81,6 +78,8 @@ const addScript = () => {
 const contentCreater = (title) => {
     let str = ""
     if (result.length !== 0) {
+        let srcG = chrome.runtime.getURL('icons8-google-48.png')
+        let srcC = chrome.runtime.getURL('icons8-copy-64.png')
         let i = 1;
         str += ` <h1 id="marker">
                  MarkerFinder 
@@ -93,15 +92,17 @@ const contentCreater = (title) => {
                 str += `<h3> ${obj.title}</h3 > `
                 str += `<ul class="markercurrent">`
                 for (let text of obj.obj.note) {
-                    let google = "Google", g = false;
+                    let g = false;
                     if (text.split(" ").length <= 4 && text !== "") {
                         g = true;
                     }
                     str += `<li> ${i}) ${text}`
                     str += `<div class="functions">
-                        <span onclick="copyToClipboard('${text}')">Copy</span>
+                        <span onclick="copyToClipboard('${text}')">
+                        <img src="${srcC}">
+                        </span>
                         `
-                    str += `${g ? `<span onclick="googleSearch('${text}')">` + google + "</span>" : ""}`
+                    str += `${g ? `<span onclick="googleSearch('${text}')">` + `<img src="${srcG}">` + "</span>" : ""}`
                     str += `</div></li>`
                     i++;
                 }
@@ -119,9 +120,11 @@ const contentCreater = (title) => {
                         }
                         str += `<li> ${i}) ${text}`
                         str += `<div class="functions">
-                        <span onclick="copyToClipboard('${text}')">Copy</span>
-                        `
-                        str += `${g ? `<span onclick="googleSearch('${text}')">` + google + "</span>" : ""}`
+                            <span onclick="copyToClipboard('${text}')">
+                            <img src="${srcC}">
+                            </span>
+                            `
+                        str += `${g ? `<span onclick="googleSearch('${text}')">` + `<img src="${srcG}">` + "</span>" : ""}`
                         str += `</div></li>`
                         i++;
                     }
@@ -195,6 +198,8 @@ document.addEventListener("mouseup", () => {
         for (let resObj of result) {
             if (resObj.title === title) {
                 resObj.obj.note.push(selected)
+                resObj.obj.note = [...new Set(resObj.obj.note)]
+                console.log(resObj.obj.note)
                 obj = true
             }
         }

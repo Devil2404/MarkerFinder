@@ -18,10 +18,19 @@
     "webRequest",
     "notifications"
   ],
-  "web_accessible_resources": [{
-    "resources": ["script.js"],
-    "matches": ["<all_urls>"]
-  }],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "script.js",
+        "icons8-google-48.png",
+        "icons8-copy-64.png",
+        "icons8-trash-48.png"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ],
   "content_scripts": [
     {
       "matches": [
