@@ -1,4 +1,4 @@
-let selected = "", obj = false, title = "", tabUrl = "", note = [], result = [], high = [];
+let selected = "", obj = false, title = "", tabUrl = "", note = [], result = [], high = [], color = "green";
 
 const closeBtn = document.getElementById("closeMarker")
 
@@ -7,18 +7,22 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.from === "popup") {
         title = message.title
         tabUrl = message.url
-        console.log(message)
-        if ("view" in message) {
-            if (message.view === 1) {
-                view(message.title)
-            }
-            else {
-                view("")
-            }
+        if (message.view === 1) {
+            view(message.title)
+        }
+        else if (message.view === 2) {
+            color = "red"
+        }
+        else if (message.view === 3) {
+            color = "green"
+        }
+        else if (message.view === 4) {
+            color = "yellow"
         }
         else {
-            sendResponse(selected)
+            view("")
         }
+
     }
     else {
         title = message.title
@@ -93,16 +97,18 @@ const contentCreater = (title) => {
                     if (text.split(" ").length <= 4 && text !== "") {
                         g = true;
                     }
-                    str += `<li> ${i}) ${text}
-                    ${g ? `<span onclick="googleSearch('${text}')">` + google + "</span>" : ""}
-                    </li>`
+                    str += `<li> ${i}) ${text}`
+                    str += `<div class="functions">
+                        <span onclick="copyToClipboard('${text}')">Copy</span>
+                        `
+                    str += `${g ? `<span onclick="googleSearch('${text}')">` + google + "</span>" : ""}`
+                    str += `</div></li>`
                     i++;
                 }
                 str += `</ul>`
 
             }
             else {
-                console.log("single")
                 if (obj.title === title) {
                     str += `<h3> Current Tab Notes</h3 > `
                     str += `<ul class="markercurrent">`
@@ -111,9 +117,12 @@ const contentCreater = (title) => {
                         if (text.split(" ").length <= 4 && text !== "") {
                             g = true;
                         }
-                        str += `<li> ${i}) ${text}
-                    ${g ? `<span onclick="googleSearch('${text}')">` + google + "</span>" : ""}
-                    </li>`
+                        str += `<li> ${i}) ${text}`
+                        str += `<div class="functions">
+                        <span onclick="copyToClipboard('${text}')">Copy</span>
+                        `
+                        str += `${g ? `<span onclick="googleSearch('${text}')">` + google + "</span>" : ""}`
+                        str += `</div></li>`
                         i++;
                     }
                     str += `</ul>`
@@ -149,7 +158,7 @@ const setData = () => {
 const surroundSelection = () => {
     var span = document.createElement("span");
     span.style.fontWeight = "bold";
-    span.style.color = "green";
+    span.style.color = color;
     if (window.getSelection) {
         var sel = window.getSelection();
         if (sel.rangeCount) {
@@ -213,46 +222,5 @@ document.addEventListener("mouseup", () => {
 
 })
 
-// const refresh = () => {
-//     chrome.storage.local.get({ highlightedTexts: [] }, function (result) {
-//         console.log(result);
-//         var highlightedTexts = result.highlightedTexts;
-//         highlightedTexts.forEach(function (highlightedText) {
-//             var range = document.createRange();
-//             var startNode = document.createElement(highlightedText.startConTag)
-//             startNode.innerHTML = highlightedText.startConInnerHtml
-//             var endNode = document.createElement(highlightedText.startConTag)
-//             endNode.innerHTML = highlightedText.endConInnerHtml
-//             range.setStart(startNode, highlightedText.startOffset);
-//             range.setEnd(endNode, highlightedText.endOffset);
-//             var span = document.createElement("span");
-//             span.style.fontWeight = "bold";
-//             span.style.color = "green";
-//             range.surroundContents(span)
-//             // range.deleteContents();
-//             // range.insertNode(span);
-//         });
-//     });
-// }
-
-// const setAttributes = () => {
-//     chrome.storage.local.get({ highlightedTexts: [] }, function (result) {
-//         var highlightedTexts = result.highlightedTexts;
-//         var selection = window.getSelection();
-//         var range = selection.getRangeAt(0);
-//         var startContainer = range.startContainer;
-//         var startConInnerHtml = startContainer.innerHTML;
-//         var startConTag = startContainer.tagName.toLowerCase()
-//         var startOffset = range.startOffset
-//         var endContainer = range.endContainer;
-//         var endConInnerHtml = endContainer.innerHTML;
-//         var endConTag = endContainer.tagName.toLowerCase()
-//         var endOffset = range.endOffset;
-//         highlightedTexts.push({
-//             startConInnerHtml, startConTag, startOffset, endConInnerHtml, endOffset, endConTag
-//         });
-//         chrome.storage.local.set({ highlightedTexts: highlightedTexts });
-//     });
-// }
 
 

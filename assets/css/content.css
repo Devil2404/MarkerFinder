@@ -51,11 +51,16 @@
     letter-spacing: 1px;
 }
 
-.markercurrent li span {
+.functions {
     float: right;
+    width: max-content;
+    margin-right: 40px;
+}
+
+.functions span {
+    margin: auto 10px;
     color: limegreen;
     cursor: pointer;
-    margin-right: 50px;
 }
 
 #closeMarker {

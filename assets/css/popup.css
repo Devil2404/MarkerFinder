@@ -32,13 +32,15 @@ hr {
 }
 
 .downloadArea,
-.viewNotes {
+.viewNotes,
+.colorPicker {
     width: 90%;
     margin: 5px auto;
     padding: 5px 6px;
 }
 
-.downloadArea h3 {
+.downloadArea h3,
+.colorPicker h3 {
     letter-spacing: 2px;
     font-size: 1.8em;
     font-weight: 400;
@@ -47,6 +49,31 @@ hr {
 
 .downloadArea h3 {
     font-size: 1em;
+}
+
+.colors {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 5px 6px;
+    margin: 5px auto;
+}
+.colors span{
+    letter-spacing: 2px;
+    font-size: 1.4em;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+#red {
+    color: red;
+}
+
+#green {
+    color: green;
+}
+
+#yellow {
+    color: yellow;
 }
 
 .block {

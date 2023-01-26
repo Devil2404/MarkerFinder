@@ -5,6 +5,9 @@ const downloadBtn = document.getElementById("downloadOne")
 const downloadAllBtn = document.getElementById("downloadAll")
 const viewOne = document.getElementById("viewOn")
 const viewAll = document.getElementById("viewAll")
+const red = document.getElementById("red")
+const yellow = document.getElementById("yellow")
+const green = document.getElementById("green")
 
 downloadAllBtn.addEventListener("click", () => {
     getData("all")
@@ -21,6 +24,15 @@ viewAll.addEventListener("click", () => {
 
 viewOne.addEventListener("click", () => {
     getQuery(1)
+})
+red.addEventListener("click", () => {
+    getQuery(2)
+})
+green.addEventListener("click", () => {
+    getQuery(3)
+})
+yellow.addEventListener("click", () => {
+    getQuery(4)
 })
 
 const getTitle = () => {
@@ -42,7 +54,7 @@ const getQuery = (x) => {
         url = tabs[0].url
         let message = {
             from: "popup",
-            view: x === 1 ? 1 : 10,
+            view: x,
             title: tabs[0].title,
             url: tabs[0].url
         }

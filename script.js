@@ -14,3 +14,20 @@ const googleSearch = (text) => {
     hidden.href = `https://www.google.com/search?q=${text}&source=desktop`
     hidden.click()
 }
+
+const copyToClipboard = str => {
+    const textarea = document.createElement('textarea');
+    textarea.value = str;
+    textarea.setAttribute('readonly', '');
+    textarea.style.position = 'absolute';
+    textarea.style.left = '-9999px';
+    document
+        .body
+        .appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    alert("Data are copied to clipboard");
+    document
+        .body
+        .removeChild(textarea);
+};
