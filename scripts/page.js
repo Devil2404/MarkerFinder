@@ -199,7 +199,6 @@ document.addEventListener("mouseup", () => {
             if (resObj.title === title) {
                 resObj.obj.note.push(selected)
                 resObj.obj.note = [...new Set(resObj.obj.note)]
-                console.log(resObj.obj.note)
                 obj = true
             }
         }

@@ -1,6 +1,9 @@
+let count = 0, Tabid = []
+
 chrome.runtime.onInstalled.addListener((details) => {
     if (details.reason === "install") {
         notification()
+        newRefresh()
     }
 })
 
@@ -19,6 +22,28 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
         refresh();
     }
 })
+
+chrome.tabs.onActivated.addListener((activeInfo) => {
+    console.log(activeInfo)
+    for (let id of Tabid) {
+        if (id === activeInfo.tabId && count > 0) {
+            console.log(id)
+            chrome.tabs.reload(activeInfo.tabId)
+            count--
+        }
+    }
+})
+
+const newRefresh = () => {
+    chrome.tabs.query({}, (tabs) => {
+        for (let tab of tabs) {
+            if (!tab.active) {
+                Tabid.push(tab.id)
+                count++
+            }
+        }
+    })
+}
 
 // sending message whenever reload 
 const refresh = () => {

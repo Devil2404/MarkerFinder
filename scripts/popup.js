@@ -75,7 +75,6 @@ let i = 1;
 const getData = (x) => {
     if (i < 6) {
         chrome.storage.sync.get(["marker"]).then((res) => {
-            console.log(res)
             if (res !== undefined && Object.keys(res).length !== 0) {
                 result = res.marker
                 verification(x)
@@ -89,7 +88,6 @@ const getData = (x) => {
     else {
         alert("There is no any notes avaliable")
     }
-    console.log(result)
 }
 
 // verify its one page or all page
@@ -113,7 +111,6 @@ const getTabTitle = () => {
 
 // creating content for download for all page
 const contentCreate = () => {
-    console.log(result)
     getTitle()
     if (result.length !== 0) {
         for (let note of result) {
@@ -135,10 +132,8 @@ const contentCreate = () => {
 
 // creating content for download for one page
 const singleContent = (title) => {
-    console.log(result)
     if (result.length !== 0) {
         for (let obj of result) {
-            console.log(title)
             if (obj.title === title) {
                 str += "from :   "
                 str += obj.title + "\n"
