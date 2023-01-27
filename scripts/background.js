@@ -23,16 +23,17 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     }
 })
 
-chrome.tabs.onActivated.addListener((activeInfo) => {
-    console.log(activeInfo)
-    for (let id of Tabid) {
-        if (id === activeInfo.tabId && count > 0) {
-            console.log(id)
-            chrome.tabs.reload(activeInfo.tabId)
-            count--
+if (count > 0) {
+    chrome.tabs.onActivated.addListener((activeInfo) => {
+        for (let id of Tabid) {
+            if (id === activeInfo.tabId && count > 0) {
+                chrome.tabs.reload(activeInfo.tabId)
+                count--
+                Tabid.splice(Tabid.indexOf(id), 1)
+            }
         }
-    }
-})
+    })
+}
 
 const newRefresh = () => {
     chrome.tabs.query({}, (tabs) => {
@@ -42,6 +43,8 @@ const newRefresh = () => {
                 count++
             }
         }
+        console.log(count)
+        console.log(Tabid)
     })
 }
 

@@ -57,11 +57,13 @@
     letter-spacing: 1px;
     height: max-content;
     border: 1px dashed #fff;
+    display: flex;
+    justify-content: space-between;
 }
 
 .functions {
-    float: right;
     width: max-content;
+    display: flex;
     margin-right: 40px;
 }
 
