@@ -185,14 +185,49 @@ const addNewNote = () => {
     }
 }
 
+const createHighLightButton = (event) => {
+    let addBtn = document.createElement("button");
+    addBtn.id = "highlightButton";
+    let src = chrome.runtime.getURL('icons8-marker-pen-48.png')
+    addBtn.style.backgroundImage = `url("${src}")`
+    addBtn.addEventListener("click", function () {
+        surroundSelection()
+        document.body.removeChild(document.getElementById("highlightButton"));
+    });
+
+    // Get the position of the selected text
+    let x = event.pageX;
+    let y = event.pageY;
+    // Position the button next to the selected text
+    addBtn.style.left = x + "px";
+    addBtn.style.top = y + "px";
+    // Add the button to the document
+    document.body.appendChild(addBtn);
+    return addBtn;
+}
+
+document.addEventListener("mousedown", function (e) {
+    let highlightButton = document.getElementById("highlightButton");
+    if (highlightButton && e.target.id !== "highlightButton") {
+        highlightButton.remove();
+    }
+});
+
+document.addEventListener("keydown", function () {
+    let highlightButton = document.getElementById("highlightButton");
+    if (highlightButton) {
+        highlightButton.remove();
+    }
+});
+
 // event for finding selected text
-document.addEventListener("mouseup", () => {
+document.addEventListener("mouseup", (e) => {
     //getting the selected text
     selected = window.getSelection().toString()
 
     //checking selected text is real string or not 
     if (selected !== undefined && selected !== "" && selected !== null) {
-        surroundSelection()
+        createHighLightButton(e)
         let value = {}
         //finding the tab in save for updating new text
         for (let resObj of result) {

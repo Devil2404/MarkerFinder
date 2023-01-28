@@ -91,3 +91,32 @@
     margin: 5px auto;
     cursor: pointer;
 }
+
+#highlightButton {
+    position: absolute;
+    background-size: cover;
+    background-position: center;
+    background-color: white !important;
+    width: 30px !important;
+    aspect-ratio: 1 !important;
+    padding: 2px !important;
+    z-index: 1000;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0px 0px 7px 0px;
+}
+
+#highlightButton:hover {
+    filter: invert(1);
+    box-shadow: 1px 1px 7px 1px #da9f9f;
+}
+
+#highlightButton:active {
+    background-color: white !important;
+}
+
+#highlightButton i {
+    margin: 0 !important;
+    padding: 0 !important;
+}

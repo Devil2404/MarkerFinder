@@ -24,7 +24,8 @@
         "script.js",
         "icons8-google-48.png",
         "icons8-copy-64.png",
-        "icons8-trash-48.png"
+        "icons8-trash-48.png",
+        "icons8-marker-pen-48.png"
       ],
       "matches": [
         "<all_urls>"
