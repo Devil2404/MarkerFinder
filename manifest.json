@@ -18,6 +18,9 @@
     "webRequest",
     "notifications"
   ],
+  "externally_connectable": {
+    "matches": ["<all_urls>"]
+  },
   "web_accessible_resources": [
     {
       "resources": [

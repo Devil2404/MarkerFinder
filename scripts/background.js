@@ -1,5 +1,6 @@
 let count = 0, Tabid = []
 
+//  first time install
 chrome.runtime.onInstalled.addListener((details) => {
     if (details.reason === "install") {
         notification()
@@ -7,6 +8,23 @@ chrome.runtime.onInstalled.addListener((details) => {
     }
 })
 
+// message from webpage
+chrome.runtime.onMessageExternal.addListener((message, sender, sendResponse) => {
+    chrome.tabs.sendMessage(sender.tab.id, {
+        text: message.text,
+        from: "background"
+    },
+        (res) => {
+            if (res){
+                console.log(res)
+                sendResponse("Ok")
+            }
+            else
+                console.log("not ok")
+        })
+});
+
+// generate notification at first installation
 const notification = () => {
     chrome.notifications.create({
         title: "MarkerFinder",
@@ -23,7 +41,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     }
 })
 
-
+// active tab checking
 chrome.tabs.onActivated.addListener((activeInfo) => {
     for (let id of Tabid) {
         if (id === activeInfo.tabId && count > 0) {
@@ -34,7 +52,7 @@ chrome.tabs.onActivated.addListener((activeInfo) => {
     }
 })
 
-
+// take all open tabs at first time
 const newRefresh = () => {
     chrome.tabs.query({}, (tabs) => {
         for (let tab of tabs) {

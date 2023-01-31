@@ -90,9 +90,6 @@ const getData = (x) => {
             }
         });
     }
-    else {
-        alert("There is no any notes avaliable")
-    }
 }
 
 // verify its one page or all page
@@ -117,20 +114,29 @@ const getTabTitle = () => {
 // creating content for download for all page
 const contentCreate = () => {
     getTitle()
+    let clear = 0
     if (result.length !== 0) {
         for (let note of result) {
             str += "from :   "
             str += note.title + "\n"
             str += "tab Url is :  "
             str += note.obj.tabUrl + "\n"
-            for (let text of note.obj.note) {
-                str += i + ")  " + text + " "
+            if (note.obj.note.length) {
+                for (let text of note.obj.note) {
+                    str += i + ")  " + text + " "
+                    str += "\n"
+                    i++;
+                }
                 str += "\n"
-                i++;
+                str += "\n"
             }
-            str += "\n"
-            str += "\n"
+            else {
+                clear++;
+            }
         }
+    }
+    if (clear === result.length) {
+        str = ""
     }
     download()
 }
@@ -145,10 +151,15 @@ const singleContent = (title) => {
                 str += "tab Url is :  "
                 str += obj.obj.tabUrl + "\n"
                 let i = 1
-                for (let text of obj.obj.note) {
-                    str += i + ")  " + text + " "
-                    str += "\n"
-                    i++
+                if (obj.obj.note.length) {
+                    for (let text of obj.obj.note) {
+                        str += i + ")  " + text + " "
+                        str += "\n"
+                        i++
+                    }
+                }
+                else {
+                    str = ""
                 }
             }
         }
@@ -165,5 +176,8 @@ const download = () => {
         hiddenElement.download = "data.txt";
         hiddenElement.click();
         str = ""
+    }
+    else {
+        alert("There is no any notes avaliable")
     }
 }

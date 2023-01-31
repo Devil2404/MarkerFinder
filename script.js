@@ -31,3 +31,12 @@ const copyToClipboard = str => {
         .body
         .removeChild(textarea);
 };
+
+const deleteNote = text => {
+    var editorExtensionId = "kkcajbgllihmngmgkndojghgmfnhklkl";
+    // Make a simple request:
+    chrome.runtime.sendMessage(editorExtensionId, { text },
+        function (response) {
+            console.log(response);
+        });
+}

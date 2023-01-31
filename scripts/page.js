@@ -26,15 +26,19 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
     }
     else {
-        title = message.title
-        tabUrl = message.url
-        sendResponse("done from page.js")
-        getData()
+        if ("text" in message) {
+            deleteNote(message.text)
+        } else {
+            title = message.title
+            tabUrl = message.url
+            sendResponse("done from page.js")
+            getData()
+        }
     }
 })
 
 //displaying the notes on page
-const view = (title) => {
+const view = (title,x) => {
     let css = false
     if (document.getElementById("markerFinder")) {
         document.body.removeChild(document.getElementById("markerFinder"))
@@ -69,7 +73,8 @@ const addCss = () => {
     head.appendChild(link);
 }
 
-const deleteNote = () => {
+// deleteNote 
+const deleteNote = (text) => {
     for (let resObj of result) {
         for (let note of resObj.obj.note) {
             if (note === text) {
@@ -78,8 +83,11 @@ const deleteNote = () => {
             }
         }
     }
+    setData()
+    addNewNote()
 }
 
+// adding css into page
 const deleteAll = () => {
     let y = confirm("Are you sure you want to delete all notes?")
     if (y) {
@@ -89,6 +97,7 @@ const deleteAll = () => {
     }
 }
 
+// adding script into page
 const addScript = () => {
     var script = document.createElement("script");
     script.src = chrome.runtime.getURL('script.js')
@@ -99,10 +108,11 @@ const addScript = () => {
 
 // creating content for notes view
 const contentCreater = (title) => {
-    let str = ""
+    let str = "";
     if (result.length !== 0) {
         let srcG = chrome.runtime.getURL('icons8-google-48.png')
         let srcC = chrome.runtime.getURL('icons8-copy-64.png')
+        let srcD = chrome.runtime.getURL('icons8-trash-48.png')
         let i = 1;
         str += ` <h1 id="marker">
                  MarkerFinder 
@@ -121,10 +131,13 @@ const contentCreater = (title) => {
                     }
                     str += `<li> ${i}) ${text}`
                     str += `<div class="functions">
-                        <span onclick="copyToClipboard('${text}')">
-                        <img src="${srcC}">
-                        </span>
-                        `
+                            <span onclick="copyToClipboard('${text}')">
+                            <img src="${srcC}">
+                            </span>
+                            <span onclick="deleteNote('${text}')">
+                            <img src="${srcD}">
+                            </span>
+                            `
                     str += `${g ? `<span onclick="googleSearch('${text}')">` + `<img src="${srcG}">` + "</span>" : ""}`
                     str += `</div></li>`
                     i++;
@@ -143,10 +156,13 @@ const contentCreater = (title) => {
                         }
                         str += `<li> ${i}) ${text}`
                         str += `<div class="functions">
-                            <span onclick="copyToClipboard('${text}')">
-                            <img src="${srcC}">
-                            </span>
-                            `
+                                <span onclick="copyToClipboard('${text}')">
+                                <img src="${srcC}">
+                                </span>
+                                <span onclick="deleteNote('${text}')">
+                                <img src="${srcD}">
+                                </span>
+                                `
                         str += `${g ? `<span onclick="googleSearch('${text}')">` + `<img src="${srcG}">` + "</span>" : ""}`
                         str += `</div></li>`
                         i++;
@@ -208,6 +224,7 @@ const addNewNote = () => {
     }
 }
 
+// create button for highlight
 const createHighLightButton = (event) => {
     let addBtn = document.createElement("button");
     addBtn.id = "highlightButton";
@@ -229,6 +246,7 @@ const createHighLightButton = (event) => {
     return addBtn;
 }
 
+// event for mouse
 document.addEventListener("mousedown", function (e) {
     let highlightButton = document.getElementById("highlightButton");
     if (highlightButton && e.target.id !== "highlightButton") {
@@ -236,6 +254,7 @@ document.addEventListener("mousedown", function (e) {
     }
 });
 
+// event for mouse down for remove highligther button
 document.addEventListener("keydown", function () {
     let highlightButton = document.getElementById("highlightButton");
     if (highlightButton) {
