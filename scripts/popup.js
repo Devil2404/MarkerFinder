@@ -5,6 +5,7 @@ const downloadBtn = document.getElementById("downloadOne")
 const downloadAllBtn = document.getElementById("downloadAll")
 const viewOne = document.getElementById("viewOn")
 const viewAll = document.getElementById("viewAll")
+const deleteAll = document.getElementById("dAll")
 const red = document.getElementById("red")
 const yellow = document.getElementById("yellow")
 const green = document.getElementById("green")
@@ -33,6 +34,10 @@ green.addEventListener("click", () => {
 })
 yellow.addEventListener("click", () => {
     getQuery(4)
+})
+
+deleteAll.addEventListener("click", () => {
+    getQuery(5)
 })
 
 const getTitle = () => {

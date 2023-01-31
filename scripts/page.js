@@ -17,6 +17,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         else if (message.view === 4) {
             color = "yellow"
         }
+        else if (message.view === 5) {
+            deleteAll()
+        }
         else {
             view("")
         }
@@ -64,6 +67,26 @@ const addCss = () => {
     link.href = 'https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500&family=Poppins&display=swap';
     link.media = 'all';
     head.appendChild(link);
+}
+
+const deleteNote = () => {
+    for (let resObj of result) {
+        for (let note of resObj.obj.note) {
+            if (note === text) {
+                let index = resObj.obj.note.indexOf(text);
+                resObj.obj.note.splice(index, 1)
+            }
+        }
+    }
+}
+
+const deleteAll = () => {
+    let y = confirm("Are you sure you want to delete all notes?")
+    if (y) {
+        result = [];
+        alert("All Notes are deleted")
+        setData()
+    }
 }
 
 const addScript = () => {
@@ -252,7 +275,6 @@ document.addEventListener("mouseup", (e) => {
 
         //save the cahnges
         setData()
-
         addNewNote()
     }
     else {

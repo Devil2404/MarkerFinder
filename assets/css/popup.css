@@ -8,6 +8,8 @@
     scroll-behavior: smooth;
     color: #fff;
     font-family: 'Poppins', sans-serif;
+    user-select: none;
+    
 }
 
 body {
@@ -57,7 +59,8 @@ hr {
     padding: 5px 6px;
     margin: 5px auto;
 }
-.colors span{
+
+.colors span {
     letter-spacing: 2px;
     font-size: 1.4em;
     font-weight: 400;
@@ -90,4 +93,20 @@ hr {
     letter-spacing: 2px;
     margin: 5px auto;
     cursor: pointer;
+}
+
+#dAll:hover {
+    background: #cf2525;
+    color: #fff;
+}
+
+#viewOn:hover,
+#viewAll:hover {
+    background: limegreen;
+    color: #fff;
+}
+#downloadOne:hover,
+#downloadAll:hover {
+    background: #3540e2;
+    color: #fff;
 }
