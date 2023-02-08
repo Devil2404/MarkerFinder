@@ -13,15 +13,6 @@ MarkerFinder is a web tool which helps you to highlight valueable text on webpag
 - Also downloading all notes or single web page notes 
 
 
-## Deployment
-
-To deploy this project run
-
-```bash
-  npm run deploy
-```
-
-
 ## Installation
 
 - Download the zip folder from this repo.
