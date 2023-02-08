@@ -37,16 +37,16 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
 })
 
+// this event is used for syncing the data a same time and get a perfect result
+chrome.storage.onChanged.addListener((changes, areaName) => {
+    getData()
+})
+
 //displaying the notes on page
-const view = (title,x) => {
-    let css = false
-    if (document.getElementById("markerFinder")) {
-        document.body.removeChild(document.getElementById("markerFinder"))
-        css = true
-    }
+const view = (title) => {
     const inner = contentCreater(title)
     if (inner !== "") {
-        if (!css) {
+        if (!viewOn()) {
             addScript()
             addCss()
         }
@@ -57,8 +57,28 @@ const view = (title,x) => {
         document.body.appendChild(p)
     }
     else {
-        alert("No notes in this page")
+        if (viewOn()) {
+            closeMarker()
+        }
+        alert("No any notes save yet")
     }
+}
+
+// if we want to close the view panel then this function is use
+const closeMarker = () => {
+    document.body.style.width = "100%"
+    var head = document.getElementsByTagName('head')[0];
+    head.removeChild(document.getElementById("markerCss"))
+    head.removeChild(document.getElementById("markerScript"))
+}
+
+// checking that the view is on or not
+const viewOn = () => {
+    if (document.getElementById("markerFinder") !== null) {
+        document.body.removeChild(document.getElementById("markerFinder"))
+        return true
+    }
+    return false
 }
 
 // adding css font style 
@@ -89,11 +109,16 @@ const deleteNote = (text) => {
 
 // adding css into page
 const deleteAll = () => {
-    let y = confirm("Are you sure you want to delete all notes?")
-    if (y) {
-        result = [];
-        alert("All Notes are deleted")
-        setData()
+    if (result.length !== 0) {
+        let y = confirm("Are you sure you want to delete all notes?")
+        if (y) {
+            result = [];
+            alert("All Notes are deleted")
+            setData()
+        }
+    }
+    else {
+        alert("There is no any note saved yet")
     }
 }
 
@@ -122,35 +147,12 @@ const contentCreater = (title) => {
              `
         for (let obj of result) {
             if (title === "") {
+                let clear = 0
                 str += `<h3> ${obj.title}</h3 > `
                 str += `<ul class="markercurrent">`
-                for (let text of obj.obj.note) {
-                    let g = false;
-                    if (text.split(" ").length <= 4 && text !== "") {
-                        g = true;
-                    }
-                    str += `<li> ${i}) ${text}`
-                    str += `<div class="functions">
-                            <span onclick="copyToClipboard('${text}')">
-                            <img src="${srcC}">
-                            </span>
-                            <span onclick="deleteNote('${text}')">
-                            <img src="${srcD}">
-                            </span>
-                            `
-                    str += `${g ? `<span onclick="googleSearch('${text}')">` + `<img src="${srcG}">` + "</span>" : ""}`
-                    str += `</div></li>`
-                    i++;
-                }
-                str += `</ul>`
-
-            }
-            else {
-                if (obj.title === title) {
-                    str += `<h3> Current Tab Notes</h3 > `
-                    str += `<ul class="markercurrent">`
+                if (obj.obj.note.length) {
                     for (let text of obj.obj.note) {
-                        let google = "Google", g = false;
+                        let g = false;
                         if (text.split(" ").length <= 4 && text !== "") {
                             g = true;
                         }
@@ -166,6 +168,44 @@ const contentCreater = (title) => {
                         str += `${g ? `<span onclick="googleSearch('${text}')">` + `<img src="${srcG}">` + "</span>" : ""}`
                         str += `</div></li>`
                         i++;
+                    }
+                }
+                else {
+                    clear++;
+                }
+                str += `</ul>`
+                if (clear === result.length) {
+                    str = ""
+                }
+
+            }
+            else {
+                if (obj.title === title) {
+                    str += `<h3> Current Tab Notes</h3 > `
+                    str += `<ul class="markercurrent">`
+                    if (obj.obj.note.length) {
+                        for (let text of obj.obj.note) {
+                            let g = false;
+                            if (text.split(" ").length <= 4 && text !== "") {
+                                g = true;
+                            }
+                            str += `<li> ${i}) ${text}`
+                            str += `<div class="functions">
+                                    <span onclick="copyToClipboard('${text}')">
+                                    <img src="${srcC}">
+                                    </span>
+                                    <span onclick="deleteNote('${text}')">
+                                    <img src="${srcD}">
+                                    </span>
+                                    `
+                            str += `${g ? `<span onclick="googleSearch('${text}')">` + `<img src="${srcG}">` + "</span>" : ""}`
+                            str += `</div></li>`
+                            i++;
+                        }
+                    }
+                    else {
+                        str = ""
+                        return str
                     }
                     str += `</ul>`
                 }

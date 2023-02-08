@@ -15,6 +15,7 @@ const googleSearch = (text) => {
     hidden.click()
 }
 
+// function for copy to clipboard
 const copyToClipboard = str => {
     const textarea = document.createElement('textarea');
     textarea.value = str;
@@ -32,6 +33,7 @@ const copyToClipboard = str => {
         .removeChild(textarea);
 };
 
+// to delete the note 
 const deleteNote = text => {
     var editorExtensionId = "kkcajbgllihmngmgkndojghgmfnhklkl";
     // Make a simple request:

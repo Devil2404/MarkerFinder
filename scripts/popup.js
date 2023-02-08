@@ -1,4 +1,7 @@
+//basic variables 
 let obj, newArr = [], oldArr = [], result = [], str = "", message = "", title = "", url = "";
+
+// all html elements which is used for notice the event
 const searchArea = document.getElementById("searchArea")
 const selectedText = document.getElementById("highlighted")
 const downloadBtn = document.getElementById("downloadOne")
@@ -40,6 +43,7 @@ deleteAll.addEventListener("click", () => {
     getQuery(5)
 })
 
+// for getting the title 
 const getTitle = () => {
     chrome.tabs.query({
         currentWindow: true,
@@ -50,6 +54,7 @@ const getTitle = () => {
     });
 }
 
+// for send a message to the page js
 const getQuery = (x) => {
     chrome.tabs.query({
         currentWindow: true,
@@ -90,6 +95,9 @@ const getData = (x) => {
             }
         });
     }
+    else {
+        alert("There is no any notes avaliable")
+    }
 }
 
 // verify its one page or all page
@@ -102,6 +110,7 @@ const verification = (x) => {
     }
 }
 
+// getting a title of tab
 const getTabTitle = () => {
     chrome.tabs.query({
         currentWindow: true,
